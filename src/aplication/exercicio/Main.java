@@ -13,7 +13,7 @@ public class Main {
 		
 		String path = "C:\\Users\\jalves22\\Documents\\projetos\\work-with-files\\arquivos";
 		
-		for (int i = 1; i < produto.length; i++) {
+		for (int i = 0; i < produto.length; i++) {
 			produto[i] = new Produto();
 			
 			System.out.println("Digite o nome do produto: ");
@@ -22,12 +22,19 @@ public class Main {
 			System.out.println("Digite o valor: ");
 			produto[i].preco = sc.nextDouble();
 		}
+		System.out.print("Iniciando escrita do arquivo!");
 		
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path+"\\arquivo.csv"))) {
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path+"\\arquivo.csv", true))) {
+			double total = 0;
 			for(Produto prod : produto) {
-				bw.write(prod.nome);
+				bw.write(prod.nome +";"+ prod.preco);
+				bw.newLine();
+				total = total + prod.preco;
 			}
-		
+			bw.write("Total"+";"+total);
+			
+			bw.close();
+			System.out.print("Arquivo .csv gerado!");
 			
 		} catch(IOException e) {
 			e.getStackTrace();
